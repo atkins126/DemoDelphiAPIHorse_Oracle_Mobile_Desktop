@@ -1,0 +1,31 @@
+program ProjectServer;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+
+uses
+  System.SysUtils,
+  Horse,
+  ServerModelConnection in 'src\Model\ServerModelConnection.pas',
+  ClienteController in 'src\Controller\ClienteController.pas';
+
+var
+    App : THorse;
+begin
+
+    ClienteController.Registry;
+
+    THorse.Get('/ping',
+    procedure(Req: THorseRequest; Res: THorseResponse; Next: TProc)
+    begin
+
+      ServerModelConnection.Connected;
+      ServerModelConnection.Disconnected;
+      Res.Send('pong');
+
+    end);
+
+  THorse.Listen(9000);
+
+end.

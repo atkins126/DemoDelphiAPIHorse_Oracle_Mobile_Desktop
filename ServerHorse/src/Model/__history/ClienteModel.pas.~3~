@@ -1,0 +1,30 @@
+unit ClienteModel;
+
+interface
+
+uses FireDAC.Comp.Client, Data.DB, System.SysUtils, ServerModelConnection;
+
+type
+
+    TCliente = class
+
+    private
+      FCLIENTE_ID: Integer;
+      FRAZAO_SOCIAL: String;
+      FEMAIL: String;
+
+    public
+      constructor Create;
+      destructor Destroy; override;
+
+      property CLIENTE_ID: Integer read FCLIENTE_ID write FCLIENTE_ID;
+      property RAZAO_SOCIAL: String read FRAZAO_SOCIAL write FRAZAO_SOCIAL;
+      property EMAIL: String read FEMAIL write FEMAIL;
+
+
+    end;
+
+implementation
+
+
+end.

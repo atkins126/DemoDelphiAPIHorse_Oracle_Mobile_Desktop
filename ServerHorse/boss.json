@@ -1,0 +1,13 @@
+{
+	"name": "ServerHorse",
+	"description": "",
+	"version": "1.0.0",
+	"homepage": "",
+	"mainsrc": "./",
+	"projects": [],
+	"dependencies": {
+		"https://github.com/hashload/horse": "^3.0.2",
+		"https://github.com/hashload/jhonson": "^1.1.4",
+		"https://github.com/viniciussanchez/dataset-serialize": "^v2.4.5"
+	}
+}

@@ -1,0 +1,6 @@
+boss init
+
+boss install https://github.com/caminhoProjeto
+
+boss update
+

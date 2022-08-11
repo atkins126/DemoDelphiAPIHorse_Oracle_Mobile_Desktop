@@ -1,0 +1,25 @@
+unit ClienteModel;
+
+interface
+
+uses FireDAC.Comp.Client, Data.DB, System.SysUtils, ServerModelConnection;
+
+type
+
+    TCliente = class
+
+    private
+      FCLIENTE_ID: Integer;
+      FRAZAO_SOCIAL: String;
+      FEMAIL: String;
+
+    public
+
+
+
+    end;
+
+implementation
+
+
+end.

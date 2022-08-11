@@ -1,0 +1,48 @@
+unit ServerModelConnection;
+
+interface
+
+uses
+
+FireDAC.Stan.Intf,
+FireDAC.Stan.Option,
+FireDAC.Stan.Error,
+FireDAC.UI.Intf,
+FireDAC.Phys.Intf,
+FireDAC.Stan.Def,
+FireDAC.Stan.Pool,
+FireDAC.Stan.Async,
+FireDAC.Phys,
+FireDAC.VCLUI.Wait,
+Data.DB,
+FireDAC.Comp.Client,
+FireDAC.DApt,
+FireDAC.Phys.OracleDef,
+FireDAC.Phys.Oracle;
+
+var
+FConn : TFDConnection;
+
+function Connected : TFDConnection;
+procedure Disconnected;
+
+implementation
+
+
+function Connected : TFDConnection;
+begin
+
+  FConn := TFDConnection.Create(nil);
+  FConn.Params.DriverID := '';
+  FConn.Params.Database := '';
+  FConn.Params.UserName := '';
+  FConn.Params.Password := '';
+
+end;
+
+procedure Disconnected;
+begin
+  //
+end;
+
+end.
