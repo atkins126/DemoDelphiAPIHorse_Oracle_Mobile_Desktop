@@ -13,9 +13,9 @@
     <Transaction>2021/07/20 10:52:43.000.213,=C:\Users\SUPORTE\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>2021/08/19 14:49:24.000.260,=C:\Users\SUPORTE\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>2022/08/10 10:01:51.000.701,=C:\Users\SUPORTE\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2022/08/10 10:03:19.000.383,C:\Users\SUPORTE\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Projetos\DemoDelphiAPIHorse_Oracle_Mobile_Desktop\Desktop\UPrincipal.pas</Transaction>
-    <Transaction>2022/08/10 10:03:19.000.383,C:\Users\SUPORTE\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Projetos\DemoDelphiAPIHorse_Oracle_Mobile_Desktop\Desktop\UPrincipal.dfm</Transaction>
-    <Transaction>2022/08/10 10:03:33.000.809,C:\Users\SUPORTE\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Projetos\DemoDelphiAPIHorse_Oracle_Mobile_Desktop\Desktop\ProjectDesktop.dproj</Transaction>
+    <Transaction>2022/08/10 10:03:19.000.383,C:\Projetos\DemoDelphiAPIHorse_Oracle_Mobile_Desktop\Desktop\UPrincipal.pas=C:\Users\SUPORTE\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/08/10 10:03:19.000.383,C:\Projetos\DemoDelphiAPIHorse_Oracle_Mobile_Desktop\Desktop\UPrincipal.dfm=C:\Users\SUPORTE\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2022/08/10 10:03:33.000.809,C:\Projetos\DemoDelphiAPIHorse_Oracle_Mobile_Desktop\Desktop\ProjectDesktop.dproj=C:\Users\SUPORTE\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
   </Transactions>
 	<ActiveMobileDevice>
 		<NoProfile iOSSimulator="iPhone5"/>
