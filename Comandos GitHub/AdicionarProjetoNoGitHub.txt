@@ -1,0 +1,17 @@
+git config --global user.name "Anielson Rodrigues Ferreira"
+
+git config --global user.email anielsonrf@gmail.com
+
+git init
+
+git add .
+
+git commit -m "No Inicio."
+
+git remote add origin https://github.com/anielsonrf/DemoDelphiAPIHorse_Oracle_Mobile_Desktop.git
+
+git pull origin
+
+git branch -M main
+
+git push -u origin main

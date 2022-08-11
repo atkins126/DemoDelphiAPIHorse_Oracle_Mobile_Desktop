@@ -1,0 +1,7 @@
+Clonar Projeto que já está no Git: git clone https://github.com/anielsonrf/springboot-rest-api.git
+
+O projeto local precisa buscar o que está no git antes de subir modificaçoes: 
+git pull origin
+
+
+
