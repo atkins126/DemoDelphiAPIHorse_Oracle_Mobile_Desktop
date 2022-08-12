@@ -108,8 +108,8 @@ begin
       try
         body := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(req.Body), 0) as TJSONValue;
 
-        cli.RAZAO_SOCIAL := body.GetValue<string>('razao','');
-        cli.EMAIL := body.GetValue<string>('email','');
+        cli.RAZAO_SOCIAL := body.GetValue<string>('RAZAO_SOCIAL','');
+        cli.EMAIL := body.GetValue<string>('EMAIL','');
         cli.Inserir(erro);
 
         body.Free;
@@ -126,7 +126,7 @@ begin
       end;
 
       clienteObject := TJSONObject.Create;
-      clienteObject.AddPair('cliente_id', cli.CLIENTE_ID.ToString);
+      clienteObject.AddPair('CLIENTE_ID', cli.CLIENTE_ID.ToString);
       Res.Send<TJSONObject>(clienteObject).Status(201);
 
   finally
@@ -140,13 +140,99 @@ begin
 end;
 
 procedure deleteCliente(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  cli : TCliente;
+  erro : string;
+  clienteObject : TJSONObject;
 begin
+
+
+  try
+     cli := TCliente.Create;
+     cli.CLIENTE_ID := Req.Params['id'].ToInteger;
+  except
+     Res.Send('Erro ao conectar-se com o banco.').Status(500);
+     exit;
+  end;
+
+
+  try
+
+    try
+      cli.CLIENTE_ID := Req.Params['id'].ToInteger;
+
+      if NOT cli.Excluir(erro) then
+        raise Exception.Create(erro);
+
+
+    except on ex:exception do
+      begin
+          Res.Send(ex.Message).Status(400);
+          exit;
+      end;
+
+    end;
+
+    clienteObject := TJSONObject.Create;
+    clienteObject.AddPair('cliente_id', cli.CLIENTE_ID.ToString);
+
+    Res.Send<TJSONObject>(clienteObject);
+
+  finally
+
+    cli.Free;
+
+  end;
+
+
   Res.Send('Delete Clientes');
 end;
 
 procedure updateCliente(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+    cli : TCliente;
+    objCliente: TJSONObject;
+    erro : string;
+    body : TJsonValue;
 begin
-  Res.Send('Update Clientes');
+    // Conexao com o banco...
+    try
+        cli := TCliente.Create;
+    except
+        res.Send('Erro ao conectar com o banco').Status(500);
+        exit;
+    end;
+
+    try
+        try
+            body := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(req.Body), 0) as TJsonValue;
+
+            cli.CLIENTE_ID := body.GetValue<integer>('clienteId', 0);
+            cli.RAZAO_SOCIAL := body.GetValue<string>('razaoSocial', '');
+            cli.EMAIL := body.GetValue<string>('email', '');
+
+            cli.Atualizar(erro);
+
+            body.Free;
+
+            if erro <> '' then
+                raise Exception.Create(erro);
+
+        except on ex:exception do
+            begin
+                res.Send(ex.Message).Status(400);
+                exit;
+            end;
+        end;
+
+
+        objCliente := TJSONObject.Create;
+        objCliente.AddPair('clienteId', cli.CLIENTE_ID.ToString);
+
+        res.Send<TJSONObject>(objCliente).Status(200);
+    finally
+        cli.Free;
+    end;
 end;
 
 procedure Registry;
@@ -155,7 +241,7 @@ begin
     THorse.Get('/cliente/:id', findClienteId);
     THorse.Post('/cliente', addCliente);
     THorse.Put('/cliente', updateCliente);
-    THorse.Delete('/cliente', deleteCliente);
+    THorse.Delete('/cliente/:id', deleteCliente);
 
 end;
 

@@ -6,6 +6,8 @@ program ProjectServer;
 
 uses
   System.SysUtils,
+  DataSet.Serialize,
+  DataSet.Serialize.Config,
   Horse.Jhonson,
   Horse,
   ServerModelConnection in 'src\Model\ServerModelConnection.pas',
@@ -17,6 +19,8 @@ var
 begin
 
     THorse.Use(Jhonson());
+
+    TDataSetSerializeConfig.GetInstance.CaseNameDefinition := TCaseNameDefinition.cndNone;
 
     //Com apenas essa linha toda a rota de clientes esta registrada
     ClienteController.Registry;
