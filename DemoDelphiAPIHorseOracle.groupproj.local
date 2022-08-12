@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>2022/08/10 14:05:45.000.172,C:\Projetos\DemoDelphiAPIHorse_Oracle_Mobile_Desktop\DemoDelphiAPIHorseOracle.groupproj=C:\Users\SUPORTE\Documents\Embarcadero\Studio\Projects\ProjectGroup1.groupproj</Transaction>
+    <Transaction>2022/08/10 14:05:45.000.172,C:\Users\SUPORTE\Documents\Embarcadero\Studio\Projects\ProjectGroup1.groupproj=C:\Projetos\DemoDelphiAPIHorse_Oracle_Mobile_Desktop\DemoDelphiAPIHorseOracle.groupproj</Transaction>
   </Transactions>
 	<Default.Personality>
-		<Projects ActiveProject="C:\Projetos\DemoDelphiAPIHorse_Oracle_Mobile_Desktop\ServerHorse\ProjectServer.dproj"/>
+		<Projects ActiveProject="C:\Projetos\DemoDelphiAPIHorse_Oracle_Mobile_Desktop\Desktop\ProjectDesktop.dproj"/>
 	</Default.Personality>
 </BorlandProject>
