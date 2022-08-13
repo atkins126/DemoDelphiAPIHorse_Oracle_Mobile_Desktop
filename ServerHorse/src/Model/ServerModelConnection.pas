@@ -39,6 +39,7 @@ begin
   FConn.Params.Password := '041680861Arf';
   FConn.Params.Add('Port=1521');
   FConn.Params.Add('Server=localhost');
+  FConn.TxOptions.AutoCommit := False;
   FConn.Connected;
   Result := FConn;
 

@@ -28,6 +28,10 @@ type
     Excluir: TButton;
     Panel1: TPanel;
     Button2: TButton;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Button1: TButton;
     procedure Button2Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -63,16 +67,8 @@ begin
 end;
 
 procedure TForm1.Button4Click(Sender: TObject);
-var
-LJSONObject: TJSONObject;
 begin
-
-  LJSONObject := FDMemTable1.ToJSONObject();
-
-  TRequest.New.BaseURL(urlServidor + '/cliente')
-    .ContentType('application/json')
-    .AddBody(LJSONObject.ToString)
-    .Put;
+  FDMemTable1.Cancel;
 end;
 
 procedure TForm1.Button5Click(Sender: TObject);

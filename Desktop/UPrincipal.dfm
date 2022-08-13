@@ -12,6 +12,27 @@ object Form1: TForm1
   Font.Style = []
   OnShow = FormShow
   TextHeight = 15
+  object Label1: TLabel
+    Left = 8
+    Top = 11
+    Width = 17
+    Height = 15
+    Caption = 'ID.:'
+  end
+  object Label2: TLabel
+    Left = 115
+    Top = 11
+    Width = 71
+    Height = 15
+    Caption = 'Raz'#227'o Social.:'
+  end
+  object Label3: TLabel
+    Left = 480
+    Top = 11
+    Width = 35
+    Height = 15
+    Caption = 'Email.:'
+  end
   object DBGrid1: TDBGrid
     Left = 8
     Top = 221
@@ -44,8 +65,8 @@ object Form1: TForm1
       end>
   end
   object DBEdit1: TDBEdit
-    Left = 16
-    Top = 64
+    Left = 31
+    Top = 8
     Width = 57
     Height = 23
     DataField = 'CLIENTE_ID'
@@ -53,8 +74,8 @@ object Form1: TForm1
     TabOrder = 1
   end
   object DBEdit2: TDBEdit
-    Left = 88
-    Top = 64
+    Left = 192
+    Top = 8
     Width = 273
     Height = 23
     DataField = 'RAZAO_SOCIAL'
@@ -62,8 +83,8 @@ object Form1: TForm1
     TabOrder = 2
   end
   object DBEdit3: TDBEdit
-    Left = 376
-    Top = 64
+    Left = 521
+    Top = 8
     Width = 233
     Height = 23
     DataField = 'EMAIL'
@@ -79,9 +100,6 @@ object Form1: TForm1
     Color = clHighlight
     ParentBackground = False
     TabOrder = 4
-    ExplicitLeft = 24
-    ExplicitTop = 408
-    ExplicitWidth = 857
     object Button4: TButton
       AlignWithMargins = True
       Left = 246
@@ -93,12 +111,9 @@ object Form1: TForm1
       Margins.Right = 0
       Margins.Bottom = 5
       Align = alLeft
-      Caption = 'Atualizar'
+      Caption = 'Cancelar'
       TabOrder = 0
       OnClick = Button4Click
-      ExplicitLeft = 251
-      ExplicitTop = 16
-      ExplicitHeight = 25
     end
     object Button5: TButton
       AlignWithMargins = True
@@ -114,9 +129,6 @@ object Form1: TForm1
       Caption = 'Novo'
       TabOrder = 1
       OnClick = Button5Click
-      ExplicitLeft = 8
-      ExplicitTop = 16
-      ExplicitHeight = 25
     end
     object Button6: TButton
       AlignWithMargins = True
@@ -132,9 +144,6 @@ object Form1: TForm1
       Caption = 'Gravar'
       TabOrder = 2
       OnClick = Button6Click
-      ExplicitLeft = 89
-      ExplicitTop = 16
-      ExplicitHeight = 25
     end
     object Excluir: TButton
       AlignWithMargins = True
@@ -150,14 +159,19 @@ object Form1: TForm1
       Caption = 'Excluir'
       TabOrder = 3
       OnClick = ExcluirClick
-      ExplicitLeft = 170
-      ExplicitTop = 16
-      ExplicitHeight = 25
+    end
+    object Button1: TButton
+      Left = 792
+      Top = 16
+      Width = 75
+      Height = 25
+      Caption = 'Relat'#243'rio'
+      TabOrder = 4
     end
   end
   object Button2: TButton
     Left = 806
-    Top = 16
+    Top = 184
     Width = 75
     Height = 25
     Caption = 'Refresh'
