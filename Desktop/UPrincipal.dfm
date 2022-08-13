@@ -167,6 +167,7 @@ object Form1: TForm1
       Height = 25
       Caption = 'Relat'#243'rio'
       TabOrder = 4
+      OnClick = Button1Click
     end
   end
   object Button2: TButton

@@ -3,12 +3,32 @@ unit UPrincipal;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, RESTRequest4D, Vcl.StdCtrls,
-  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  Data.DB, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  DataSet.Serialize, System.JSON, Vcl.Mask, Vcl.ExtCtrls, Vcl.DBCtrls,
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  RESTRequest4D,
+  Vcl.StdCtrls,
+  FireDAC.Stan.Intf,
+  FireDAC.Stan.Option,
+  FireDAC.Stan.Param,
+  FireDAC.Stan.Error,
+  FireDAC.DatS,
+  FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf,
+  Data.DB, Vcl.Grids,
+  Vcl.DBGrids,
+  FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client,
+  DataSet.Serialize,
+  System.JSON,
+  Vcl.Mask, Vcl.ExtCtrls,
+  Vcl.DBCtrls,
   DataSet.Serialize.Config;
 
 type
@@ -39,6 +59,7 @@ type
     procedure Button6Click(Sender: TObject);
     procedure ExcluirClick(Sender: TObject);
     procedure buscaClientes;
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -53,12 +74,21 @@ implementation
 
 {$R *.dfm}
 
+uses RelClientes;
+
+
+
 procedure TForm1.buscaClientes;
 begin
     TRequest.New.BaseURL(urlServidor + '/cliente')
     .Accept('application/json')
     .DataSetAdapter(FDMemTable1)
     .Get;
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+    frmRelClientes.RLReport1.Preview();
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
