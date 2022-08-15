@@ -100,8 +100,6 @@ type
     procedure Button1Click(Sender: TObject);
     procedure DataSource1StateChange(Sender: TObject);
     procedure Button3Click(Sender: TObject);
-    procedure Button7Click(Sender: TObject);
-    procedure Button5Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -151,46 +149,6 @@ procedure TForm1.Button3Click(Sender: TObject);
 begin
   mtEnderecos.Append;
   edtRua.SetFocus;
-end;
-
-procedure TForm1.Button5Click(Sender: TObject);
-var
-LJSONObject: TJSONObject;
-begin
-
-   TRequest.New.BaseURL(urlServidor + '/endereco/' + mtEnderecosENDERECO_ID.AsInteger.ToString)
-  .Delete;
-
-  buscaEnderecos;
-end;
-
-procedure TForm1.Button7Click(Sender: TObject);
-var
-LJSONObject: TJSONObject;
-begin
-
-
-   mtEnderecos.Post;
-   LJSONObject := mtEnderecos.ToJSONObject();
-
-
-   if (mtEnderecosENDERECO_ID.AsInteger > 0) then
-   begin
-       TRequest.New.BaseURL(urlServidor + '/endereco')
-      .ContentType('application/json')
-      .AddBody(LJSONObject.ToString)
-      .Put;
-   end
-   else
-   begin
-       TRequest.New.BaseURL(urlServidor + '/endereco')
-       .ContentType('application/json')
-       .AddBody(LJSONObject.ToString)
-       .Post;
-   end;
-
-   buscaEnderecos;
-
 end;
 
 procedure TForm1.btnCancelarClick(Sender: TObject);
@@ -262,7 +220,6 @@ end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
-  PageControl1.TabIndex := 0;
   TDataSetSerializeConfig.GetInstance.CaseNameDefinition := TCaseNameDefinition.cndNone;
   urlServidor :=  'http://localhost:9000';
   buscaClientes;

@@ -101,7 +101,6 @@ type
     procedure DataSource1StateChange(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button7Click(Sender: TObject);
-    procedure Button5Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -151,17 +150,6 @@ procedure TForm1.Button3Click(Sender: TObject);
 begin
   mtEnderecos.Append;
   edtRua.SetFocus;
-end;
-
-procedure TForm1.Button5Click(Sender: TObject);
-var
-LJSONObject: TJSONObject;
-begin
-
-   TRequest.New.BaseURL(urlServidor + '/endereco/' + mtEnderecosENDERECO_ID.AsInteger.ToString)
-  .Delete;
-
-  buscaEnderecos;
 end;
 
 procedure TForm1.Button7Click(Sender: TObject);

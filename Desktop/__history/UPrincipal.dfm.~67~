@@ -111,7 +111,7 @@ object Form1: TForm1
     Top = 0
     Width = 889
     Height = 434
-    ActivePage = TabSheet2
+    ActivePage = TabSheet1
     TabOrder = 1
     object TabSheet1: TTabSheet
       Caption = 'Clientes'
@@ -337,8 +337,8 @@ object Form1: TForm1
         DataSource = dsEnderecos
         TabOrder = 1
       end
-      object edtRua: TDBEdit
-        Left = 81
+      object DBEdit2: TDBEdit
+        Left = 72
         Top = 30
         Width = 187
         Height = 23
@@ -346,7 +346,7 @@ object Form1: TForm1
         DataSource = dsEnderecos
         TabOrder = 2
       end
-      object edtNumero: TDBEdit
+      object DBEdit3: TDBEdit
         Left = 274
         Top = 30
         Width = 55
@@ -355,7 +355,7 @@ object Form1: TForm1
         DataSource = dsEnderecos
         TabOrder = 3
       end
-      object edtCidade: TDBEdit
+      object DBEdit4: TDBEdit
         Left = 513
         Top = 30
         Width = 194
@@ -364,7 +364,7 @@ object Form1: TForm1
         DataSource = dsEnderecos
         TabOrder = 4
       end
-      object edtUF: TDBEdit
+      object DBEdit5: TDBEdit
         Left = 721
         Top = 30
         Width = 40
@@ -373,7 +373,7 @@ object Form1: TForm1
         DataSource = dsEnderecos
         TabOrder = 5
       end
-      object edtCEP: TDBEdit
+      object DBEdit6: TDBEdit
         Left = 788
         Top = 30
         Width = 74
@@ -382,7 +382,7 @@ object Form1: TForm1
         DataSource = dsEnderecos
         TabOrder = 6
       end
-      object edtBairro: TDBEdit
+      object DBEdit7: TDBEdit
         Left = 346
         Top = 30
         Width = 151
@@ -392,8 +392,8 @@ object Form1: TForm1
         TabOrder = 7
       end
       object Panel2: TPanel
-        Left = 0
-        Top = 105
+        Left = 3
+        Top = 73
         Width = 862
         Height = 41
         Color = clHighlight
@@ -406,7 +406,6 @@ object Form1: TForm1
           Height = 25
           Caption = 'Novo'
           TabOrder = 0
-          OnClick = Button3Click
         end
         object Button4: TButton
           Left = 513
@@ -423,7 +422,6 @@ object Form1: TForm1
           Height = 25
           Caption = 'Excluir'
           TabOrder = 2
-          OnClick = Button5Click
         end
         object Button6: TButton
           Left = 675
@@ -440,7 +438,6 @@ object Form1: TForm1
           Height = 25
           Caption = 'Gravar'
           TabOrder = 4
-          OnClick = Button7Click
         end
       end
     end

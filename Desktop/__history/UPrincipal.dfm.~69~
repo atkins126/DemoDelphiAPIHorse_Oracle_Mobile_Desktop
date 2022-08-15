@@ -392,8 +392,8 @@ object Form1: TForm1
         TabOrder = 7
       end
       object Panel2: TPanel
-        Left = 0
-        Top = 105
+        Left = 3
+        Top = 73
         Width = 862
         Height = 41
         Color = clHighlight
@@ -423,7 +423,6 @@ object Form1: TForm1
           Height = 25
           Caption = 'Excluir'
           TabOrder = 2
-          OnClick = Button5Click
         end
         object Button6: TButton
           Left = 675
@@ -440,7 +439,6 @@ object Form1: TForm1
           Height = 25
           Caption = 'Gravar'
           TabOrder = 4
-          OnClick = Button7Click
         end
       end
     end

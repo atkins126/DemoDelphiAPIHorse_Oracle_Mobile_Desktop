@@ -111,10 +111,31 @@ object Form1: TForm1
     Top = 0
     Width = 889
     Height = 434
-    ActivePage = TabSheet2
+    ActivePage = TabSheet1
     TabOrder = 1
     object TabSheet1: TTabSheet
       Caption = 'Clientes'
+      object Label1: TLabel
+        Left = 8
+        Top = 11
+        Width = 17
+        Height = 15
+        Caption = 'ID.:'
+      end
+      object Label2: TLabel
+        Left = 115
+        Top = 11
+        Width = 71
+        Height = 15
+        Caption = 'Raz'#227'o Social.:'
+      end
+      object Label3: TLabel
+        Left = 480
+        Top = 11
+        Width = 35
+        Height = 15
+        Caption = 'Email.:'
+      end
       object DBGrid1: TDBGrid
         Left = 0
         Top = 224
@@ -147,71 +168,40 @@ object Form1: TForm1
             Visible = True
           end>
       end
-      object Panel3: TPanel
-        Left = 0
-        Top = 0
-        Width = 881
-        Height = 187
-        Align = alTop
-        Color = clCream
-        ParentBackground = False
+      object edtIDCliente: TDBEdit
+        Left = 31
+        Top = 8
+        Width = 57
+        Height = 23
+        DataField = 'CLIENTE_ID'
+        DataSource = DataSource1
         TabOrder = 1
-        object Label1: TLabel
-          Left = 8
-          Top = 11
-          Width = 17
-          Height = 15
-          Caption = 'ID.:'
-        end
-        object Label2: TLabel
-          Left = 115
-          Top = 11
-          Width = 71
-          Height = 15
-          Caption = 'Raz'#227'o Social.:'
-        end
-        object Label3: TLabel
-          Left = 480
-          Top = 11
-          Width = 35
-          Height = 15
-          Caption = 'Email.:'
-        end
-        object edtEmail: TDBEdit
-          Left = 521
-          Top = 8
-          Width = 233
-          Height = 23
-          DataField = 'EMAIL'
-          DataSource = DataSource1
-          TabOrder = 0
-        end
-        object edtIDCliente: TDBEdit
-          Left = 31
-          Top = 8
-          Width = 57
-          Height = 23
-          DataField = 'CLIENTE_ID'
-          DataSource = DataSource1
-          TabOrder = 1
-        end
-        object edtRazaoSocial: TDBEdit
-          Left = 192
-          Top = 8
-          Width = 273
-          Height = 23
-          DataField = 'RAZAO_SOCIAL'
-          DataSource = DataSource1
-          TabOrder = 2
-        end
+      end
+      object edtRazaoSocial: TDBEdit
+        Left = 192
+        Top = 8
+        Width = 273
+        Height = 23
+        DataField = 'RAZAO_SOCIAL'
+        DataSource = DataSource1
+        TabOrder = 2
+      end
+      object edtEmail: TDBEdit
+        Left = 521
+        Top = 8
+        Width = 233
+        Height = 23
+        DataField = 'EMAIL'
+        DataSource = DataSource1
+        TabOrder = 3
       end
       object Button2: TButton
-        Left = 796
-        Top = 193
+        Left = 788
+        Top = 3
         Width = 75
         Height = 25
         Caption = 'Refresh'
-        TabOrder = 2
+        TabOrder = 4
         OnClick = Button2Click
       end
     end
@@ -337,8 +327,8 @@ object Form1: TForm1
         DataSource = dsEnderecos
         TabOrder = 1
       end
-      object edtRua: TDBEdit
-        Left = 81
+      object DBEdit2: TDBEdit
+        Left = 72
         Top = 30
         Width = 187
         Height = 23
@@ -346,7 +336,7 @@ object Form1: TForm1
         DataSource = dsEnderecos
         TabOrder = 2
       end
-      object edtNumero: TDBEdit
+      object DBEdit3: TDBEdit
         Left = 274
         Top = 30
         Width = 55
@@ -355,7 +345,7 @@ object Form1: TForm1
         DataSource = dsEnderecos
         TabOrder = 3
       end
-      object edtCidade: TDBEdit
+      object DBEdit4: TDBEdit
         Left = 513
         Top = 30
         Width = 194
@@ -364,7 +354,7 @@ object Form1: TForm1
         DataSource = dsEnderecos
         TabOrder = 4
       end
-      object edtUF: TDBEdit
+      object DBEdit5: TDBEdit
         Left = 721
         Top = 30
         Width = 40
@@ -373,7 +363,7 @@ object Form1: TForm1
         DataSource = dsEnderecos
         TabOrder = 5
       end
-      object edtCEP: TDBEdit
+      object DBEdit6: TDBEdit
         Left = 788
         Top = 30
         Width = 74
@@ -382,7 +372,7 @@ object Form1: TForm1
         DataSource = dsEnderecos
         TabOrder = 6
       end
-      object edtBairro: TDBEdit
+      object DBEdit7: TDBEdit
         Left = 346
         Top = 30
         Width = 151
@@ -392,8 +382,8 @@ object Form1: TForm1
         TabOrder = 7
       end
       object Panel2: TPanel
-        Left = 0
-        Top = 105
+        Left = 3
+        Top = 73
         Width = 862
         Height = 41
         Color = clHighlight
@@ -406,7 +396,6 @@ object Form1: TForm1
           Height = 25
           Caption = 'Novo'
           TabOrder = 0
-          OnClick = Button3Click
         end
         object Button4: TButton
           Left = 513
@@ -423,7 +412,6 @@ object Form1: TForm1
           Height = 25
           Caption = 'Excluir'
           TabOrder = 2
-          OnClick = Button5Click
         end
         object Button6: TButton
           Left = 675
@@ -440,7 +428,6 @@ object Form1: TForm1
           Height = 25
           Caption = 'Gravar'
           TabOrder = 4
-          OnClick = Button7Click
         end
       end
     end
@@ -474,9 +461,6 @@ object Form1: TForm1
     Top = 368
   end
   object mtEnderecos: TFDMemTable
-    IndexFieldNames = 'CLIENTE_ID'
-    MasterSource = DataSource1
-    MasterFields = 'CLIENTE_ID'
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]

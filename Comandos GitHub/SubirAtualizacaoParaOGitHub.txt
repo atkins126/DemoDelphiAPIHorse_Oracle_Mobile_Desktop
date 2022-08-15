@@ -1,4 +1,4 @@
 git add .
-git commit -m "Adicionado Endereco"
+git commit -m "Ajustes no cadastro de Enderecos"
 git push -u origin main
 git status
