@@ -1,0 +1,215 @@
+unit EnderecoModel;
+
+
+
+interface
+
+uses FireDAC.Comp.Client, Data.DB, System.SysUtils, ServerModelConnection;
+
+
+
+type
+
+    TEndereco = class
+
+    private
+      FENDERECO_ID : Integer;
+      FRUA         : String;
+      FNUMERO      : String;
+      FBAIRRO      : String;
+      FCIDADE      : String;
+      FUF          : String;
+      FCEP         : String;
+      FCLIENTE_ID  : Integer;
+
+    public
+      constructor Create;
+      destructor Destroy; override;
+
+      property ENDERECO_ID: Integer read FENDERECO_ID write FENDERECO_ID;
+      property RUA        : String  read FRUA         write FRUA;
+      property NUMERO     : String  read FNUMERO      write FNUMERO;
+      property BAIRRO     : String  read FBAIRRO      write FBAIRRO;
+      property CIDADE     : String  read FCIDADE      write FCIDADE;
+      property UF         : String  read FUF          write FUF;
+      property CEP        : String  read FCEP         write FCEP;
+      property CLIENTE_ID : Integer read FCLIENTE_ID  write FCLIENTE_ID;
+
+
+      function ListarEndereco(order_by     : string; out erro: string) : TFDQuery;
+      function Inserir(out erro: string)   : Boolean;
+      function Excluir(out erro: string)   : Boolean;
+      function Atualizar(out erro: string) : Boolean;
+
+    end;
+
+
+implementation
+
+{ TEndereco }
+
+function TEndereco.Atualizar(out erro: string): Boolean;
+var
+    query : TFDQuery;
+begin
+    // Validacoes...
+    if ENDERECO_ID <= 0 then
+    begin
+        Result := false;
+        erro := 'Informe o id do endereco.';
+        exit;
+    end;
+
+    ServerModelConnection.FConn.StartTransaction;
+    try
+        query := TFDQuery.Create(nil);
+        query.Connection := ServerModelConnection.FConn;
+
+        with query do
+        begin
+            Active := false;
+            sql.Clear;
+            SQL.Add('UPDATE ENDERECO SET RUA=:RUA, NUMERO=:NUMERO, BAIRRO=:BAIRRO, CIDADE=:CIDADE, UF=:UF, CEP=:CEP, CLIENTE_ID=:CLIENTE_ID');
+            SQL.Add('WHERE ENDERECO_ID=:ENDERECO_ID');
+
+            ParamByName('RUA').Value        := RUA;
+            ParamByName('NUMERO').Value     := NUMERO;
+            ParamByName('BAIRRO').Value     := BAIRRO;
+            ParamByName('CIDADE').Value     := CIDADE;
+            ParamByName('UF').Value         := UF;
+            ParamByName('CEP').Value        := CEP;
+            ParamByName('CLIENTE_ID').Value := CLIENTE_ID;
+            ParamByName('ENDERECO_ID').Value := ENDERECO_ID;
+            ExecSQL;
+        end;
+
+        ServerModelConnection.FConn.Commit;
+
+        query.Free;
+        erro := '';
+        result := true;
+
+    except on ex:exception do
+        begin
+            ServerModelConnection.FConn.Rollback;
+            erro := 'Erro ao alterar endereco: ' + ex.Message;
+            Result := false;
+        end;
+    end;
+end;
+
+
+constructor TEndereco.Create;
+begin
+  ServerModelConnection.Connected;
+end;
+
+destructor TEndereco.Destroy;
+begin
+  ServerModelConnection.Disconnected;
+end;
+
+function TEndereco.Excluir(out erro: string): Boolean;
+var
+    query : TFDQuery;
+begin
+
+    ServerModelConnection.FConn.StartTransaction;
+    try
+        query := TFDQuery.Create(nil);
+        query.Connection := ServerModelConnection.FConn;
+
+        with query do
+        begin
+            Active := false;
+            sql.Clear;
+            SQL.Add('DELETE FROM ENDERECO WHERE ENDERECO_ID=:ENDERECO_ID');
+            ParamByName('ENDERECO_ID').Value := ENDERECO_ID;
+            ExecSQL;
+        end;
+
+        ServerModelConnection.FConn.Commit;
+        query.Free;
+        erro := '';
+        result := true;
+
+    except on ex:exception do
+        begin
+            ServerModelConnection.FConn.Rollback;
+            erro := 'Erro ao excluir endereco: ' + ex.Message;
+            Result := false;
+        end;
+    end;
+end;
+
+
+function TEndereco.Inserir(out erro: string): Boolean;
+var
+  query : TFDQuery;
+begin
+
+    if RUA.IsEmpty then
+    begin
+      Result := False;
+      erro := 'Informe a rua';
+      exit;
+    end;
+
+    ServerModelConnection.FConn.StartTransaction;
+    try
+      query := TFDQuery.Create(nil);
+      query.Connection := ServerModelConnection.FConn;
+
+      with query do
+      begin
+        Active := False;
+        SQL.Clear;
+        SQL.Add('INSERT INTO ENDERECO (RUA, NUMERO, BAIRRO, CIDADE, UF, CEP, CLIENTE_ID)');
+        SQL.Add('VALUES(:RUA, :NUMERO, :BAIRRO, :CIDADE, :UF, :CEP, :CLIENTE_ID)');
+
+        ParamByName('RUA').Value        := RUA;
+        ParamByName('NUMERO').Value     := NUMERO;
+        ParamByName('BAIRRO').Value     := BAIRRO;
+        ParamByName('CIDADE').Value     := CIDADE;
+        ParamByName('UF').Value         := UF;
+        ParamByName('CEP').Value        := CEP;
+        ParamByName('CLIENTE_ID').Value := CLIENTE_ID;
+
+
+        ExecSQL;
+
+        Params.Clear;
+        SQL.Clear;
+        SQL.Add('SELECT MAX(CLIENTE_ID) AS CLIENTE_ID FROM CLIENTE');
+        SQL.Add('WHERE EMAIL = :EMAIL');
+        ParamByName('EMAIL').Value := EMAIL;
+
+        Active := True;
+
+        CLIENTE_ID := FieldByName('CLIENTE_ID').AsInteger;
+      end;
+
+      ServerModelConnection.FConn.Commit;
+
+      query.Free;
+      erro := '';
+      Result := True;
+
+    except on ex:exception do
+    begin
+      ServerModelConnection.FConn.Rollback;
+      erro := 'Erro ao cadastrar cliente: ' + ex.Message;
+      Result := False;
+    end;
+
+    end;
+
+
+end;
+
+function TEndereco.ListarEndereco(order_by: string; out erro: string): TFDQuery;
+begin
+   //
+end;
+
+end.

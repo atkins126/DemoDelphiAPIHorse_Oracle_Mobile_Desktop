@@ -12,7 +12,9 @@ uses
   Horse,
   ServerModelConnection in 'src\Model\ServerModelConnection.pas',
   ClienteController in 'src\Controller\ClienteController.pas',
-  ClienteModel in 'src\Model\ClienteModel.pas';
+  ClienteModel in 'src\Model\ClienteModel.pas',
+  EnderecoModel in 'src\Model\EnderecoModel.pas',
+  EnderecoController in 'src\Controller\EnderecoController.pas';
 
 var
     App : THorse;
@@ -24,6 +26,7 @@ begin
 
     //Com apenas essa linha toda a rota de clientes esta registrada
     ClienteController.Registry;
+    EnderecoController.Registry;
 
     //A linha acima é para evitar acumulo de rotas como está abaixo
     THorse.Get('/ping',

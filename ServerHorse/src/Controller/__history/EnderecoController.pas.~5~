@@ -1,0 +1,245 @@
+unit EnderecoController;
+
+interface
+
+uses
+Horse,
+System.JSON,
+System.SysUtils,
+ClienteModel,
+FireDAC.Comp.Client,
+Data.DB,
+DataSet.Serialize;
+
+
+procedure Registry;
+procedure listEndereco(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+procedure addEndereco(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+procedure deleteEndereco(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+procedure updateEndereco(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+
+procedure findEnderecoId(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+
+implementation
+
+procedure listCliente(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  endereco : TEndereco;
+  query : TFDQuery;
+  erro : string;
+  arrayClientes : TJSONArray;
+begin
+
+  try
+     endereco := TEndereco.Create;
+  except
+     Res.Send('Erro ao conectar-se com o banco.').Status(500);
+     exit;
+  end;
+
+  try
+     query := endereco.ListarEndereco('', erro);
+     arrayEnderecos := query.ToJSONArray();
+     Res.Send<TJSONArray>(arrayEnderecos);
+  finally
+     query.Free;
+     endereco.Free;
+  end;
+
+end;
+
+procedure findClienteId(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  cli : TCliente;
+  query : TFDQuery;
+  erro : string;
+  clienteObject : TJSONObject;
+begin
+
+  try
+     cli := TCliente.Create;
+     cli.CLIENTE_ID := Req.Params['id'].ToInteger;
+  except
+     Res.Send('Erro ao conectar-se com o banco.').Status(500);
+     exit;
+  end;
+
+  try
+     query := cli.ListarCliente('', erro);
+
+     if query.RecordCount > 0 then
+     begin
+       clienteObject := query.ToJSONObject;
+       Res.Send<TJSONObject>(clienteObject);
+     end
+     else
+     begin
+        Res.Send('Cliente nao encontrado.').Status(404);
+     end;
+
+
+  finally
+     query.Free;
+     cli.Free;
+  end;
+
+end;
+
+procedure addCliente(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  cli : TCliente;
+  query : TFDQuery;
+  erro : string;
+  clienteObject : TJSONObject;
+  body : TJSONValue;
+begin
+
+  try
+     cli := TCliente.Create;
+  except
+     Res.Send('Erro ao conectar-se com o banco.').Status(500);
+     exit;
+  end;
+
+  try
+
+      try
+        body := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(req.Body), 0) as TJSONValue;
+
+        cli.RAZAO_SOCIAL := body.GetValue<string>('RAZAO_SOCIAL','');
+        cli.EMAIL := body.GetValue<string>('EMAIL','');
+        cli.Inserir(erro);
+
+        body.Free;
+
+        if erro <> '' then
+          raise Exception.Create(erro);
+
+      except on ex:exception do
+        begin
+            Res.Send(ex.Message).Status(400);
+            exit;
+        end;
+
+      end;
+
+      clienteObject := TJSONObject.Create;
+      clienteObject.AddPair('CLIENTE_ID', cli.CLIENTE_ID.ToString);
+      Res.Send<TJSONObject>(clienteObject).Status(201);
+
+  finally
+    cli.Free;
+
+  end;
+
+  Res.Send('Add Clientes');
+end;
+
+procedure deleteCliente(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  cli : TCliente;
+  erro : string;
+  clienteObject : TJSONObject;
+begin
+
+
+  try
+     cli := TCliente.Create;
+     cli.CLIENTE_ID := Req.Params['id'].ToInteger;
+  except
+     Res.Send('Erro ao conectar-se com o banco.').Status(500);
+     exit;
+  end;
+
+
+  try
+
+    try
+      cli.CLIENTE_ID := Req.Params['id'].ToInteger;
+
+      if NOT cli.Excluir(erro) then
+        raise Exception.Create(erro);
+
+
+    except on ex:exception do
+      begin
+          Res.Send(ex.Message).Status(400);
+          exit;
+      end;
+
+    end;
+
+    clienteObject := TJSONObject.Create;
+    clienteObject.AddPair('CLIENTE_ID', cli.CLIENTE_ID.ToString);
+
+    Res.Send<TJSONObject>(clienteObject);
+
+  finally
+
+    cli.Free;
+
+  end;
+
+
+  Res.Send('Delete Clientes');
+end;
+
+procedure updateCliente(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+    cli : TCliente;
+    objCliente: TJSONObject;
+    erro : string;
+    body : TJsonValue;
+begin
+    // Conexao com o banco...
+    try
+        cli := TCliente.Create;
+    except
+        res.Send('Erro ao conectar com o banco').Status(500);
+        exit;
+    end;
+
+    try
+        try
+            body := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(req.Body), 0) as TJsonValue;
+
+            cli.CLIENTE_ID := body.GetValue<integer>('CLIENTE_ID', 0);
+            cli.RAZAO_SOCIAL := body.GetValue<string>('RAZAO_SOCIAL', '');
+            cli.EMAIL := body.GetValue<string>('EMAIL', '');
+
+            cli.Atualizar(erro);
+
+            body.Free;
+
+            if erro <> '' then
+                raise Exception.Create(erro);
+
+        except on ex:exception do
+            begin
+                res.Send(ex.Message).Status(400);
+                exit;
+            end;
+        end;
+
+
+        objCliente := TJSONObject.Create;
+        objCliente.AddPair('CLIENTE_ID', cli.CLIENTE_ID.ToString);
+
+        res.Send<TJSONObject>(objCliente).Status(200);
+    finally
+        cli.Free;
+    end;
+end;
+
+procedure Registry;
+begin
+    THorse.Get('/endereco', listEndereco);
+    THorse.Get('/endereco/:id', findEnderecoId);
+    THorse.Post('/endereco', addEndereco);
+    THorse.Put('/endereco', updateEndereco);
+    THorse.Delete('/endereco/:id', deleteEndereco);
+
+end;
+
+
+end.

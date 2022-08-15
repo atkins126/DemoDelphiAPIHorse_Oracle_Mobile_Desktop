@@ -11,7 +11,6 @@ FireDAC.Comp.Client,
 Data.DB,
 DataSet.Serialize;
 
-
 procedure Registry;
 procedure listCliente(Req: THorseRequest; Res: THorseResponse; Next: TProc);
 procedure addCliente(Req: THorseRequest; Res: THorseResponse; Next: TProc);
@@ -21,8 +20,6 @@ procedure updateCliente(Req: THorseRequest; Res: THorseResponse; Next: TProc);
 procedure findClienteId(Req: THorseRequest; Res: THorseResponse; Next: TProc);
 
 implementation
-
-
 
 procedure listCliente(Req: THorseRequest; Res: THorseResponse; Next: TProc);
 var
@@ -78,7 +75,6 @@ begin
      begin
         Res.Send('Cliente nao encontrado.').Status(404);
      end;
-
 
   finally
      query.Free;
