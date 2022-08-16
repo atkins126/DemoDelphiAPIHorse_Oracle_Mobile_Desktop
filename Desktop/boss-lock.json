@@ -10,6 +10,14 @@
 			"failed": false,
 			"changed": true
 		},
+		"github.com/viniciussanchez/dataset-serialize": {
+			"name": "dataset-serialize",
+			"version": "v2.4.5",
+			"hash": "ec9fddf8d0a6953260993176bba8c555",
+			"artifacts": {},
+			"failed": false,
+			"changed": false
+		},
 		"https://github.com/hashload/horse": {
 			"name": "horse",
 			"version": "3.0.2",
@@ -22,6 +30,14 @@
 			"name": "jhonson",
 			"version": "1.1.4",
 			"hash": "7f48e0509b98505a12fa80ee39b53aea",
+			"artifacts": {},
+			"failed": false,
+			"changed": false
+		},
+		"https://github.com/viniciussanchez/restrequest4delphi": {
+			"name": "restrequest4delphi",
+			"version": "v3.0.18",
+			"hash": "23f252aadf6530a6ec015c020e1419a6",
 			"artifacts": {},
 			"failed": false,
 			"changed": false

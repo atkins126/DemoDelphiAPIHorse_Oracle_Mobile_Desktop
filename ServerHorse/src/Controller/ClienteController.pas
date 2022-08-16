@@ -11,7 +11,6 @@ FireDAC.Comp.Client,
 Data.DB,
 DataSet.Serialize;
 
-
 procedure Registry;
 procedure listCliente(Req: THorseRequest; Res: THorseResponse; Next: TProc);
 procedure addCliente(Req: THorseRequest; Res: THorseResponse; Next: TProc);
@@ -21,8 +20,6 @@ procedure updateCliente(Req: THorseRequest; Res: THorseResponse; Next: TProc);
 procedure findClienteId(Req: THorseRequest; Res: THorseResponse; Next: TProc);
 
 implementation
-
-
 
 procedure listCliente(Req: THorseRequest; Res: THorseResponse; Next: TProc);
 var
@@ -79,7 +76,6 @@ begin
         Res.Send('Cliente nao encontrado.').Status(404);
      end;
 
-
   finally
      query.Free;
      cli.Free;
@@ -108,8 +104,8 @@ begin
       try
         body := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(req.Body), 0) as TJSONValue;
 
-        cli.RAZAO_SOCIAL := body.GetValue<string>('razaoSocial','');
-        cli.EMAIL := body.GetValue<string>('email','');
+        cli.RAZAO_SOCIAL := body.GetValue<string>('RAZAO_SOCIAL','');
+        cli.EMAIL := body.GetValue<string>('EMAIL','');
         cli.Inserir(erro);
 
         body.Free;
@@ -126,15 +122,13 @@ begin
       end;
 
       clienteObject := TJSONObject.Create;
-      clienteObject.AddPair('cliente_id', cli.CLIENTE_ID.ToString);
+      clienteObject.AddPair('CLIENTE_ID', cli.CLIENTE_ID.ToString);
       Res.Send<TJSONObject>(clienteObject).Status(201);
 
   finally
     cli.Free;
 
   end;
-
-
 
   Res.Send('Add Clientes');
 end;
@@ -174,7 +168,7 @@ begin
     end;
 
     clienteObject := TJSONObject.Create;
-    clienteObject.AddPair('cliente_id', cli.CLIENTE_ID.ToString);
+    clienteObject.AddPair('CLIENTE_ID', cli.CLIENTE_ID.ToString);
 
     Res.Send<TJSONObject>(clienteObject);
 
@@ -207,9 +201,9 @@ begin
         try
             body := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(req.Body), 0) as TJsonValue;
 
-            cli.CLIENTE_ID := body.GetValue<integer>('clienteId', 0);
-            cli.RAZAO_SOCIAL := body.GetValue<string>('razaoSocial', '');
-            cli.EMAIL := body.GetValue<string>('email', '');
+            cli.CLIENTE_ID := body.GetValue<integer>('CLIENTE_ID', 0);
+            cli.RAZAO_SOCIAL := body.GetValue<string>('RAZAO_SOCIAL', '');
+            cli.EMAIL := body.GetValue<string>('EMAIL', '');
 
             cli.Atualizar(erro);
 
@@ -227,7 +221,7 @@ begin
 
 
         objCliente := TJSONObject.Create;
-        objCliente.AddPair('clienteId', cli.CLIENTE_ID.ToString);
+        objCliente.AddPair('CLIENTE_ID', cli.CLIENTE_ID.ToString);
 
         res.Send<TJSONObject>(objCliente).Status(200);
     finally

@@ -45,6 +45,7 @@ begin
         exit;
     end;
 
+    ServerModelConnection.FConn.StartTransaction;
     try
         query := TFDQuery.Create(nil);
         query.Connection := ServerModelConnection.FConn;
@@ -62,12 +63,15 @@ begin
             ExecSQL;
         end;
 
+        ServerModelConnection.FConn.Commit;
+
         query.Free;
         erro := '';
         result := true;
 
     except on ex:exception do
         begin
+            ServerModelConnection.FConn.Rollback;
             erro := 'Erro ao alterar cliente: ' + ex.Message;
             Result := false;
         end;
@@ -88,6 +92,8 @@ function TCliente.Excluir(out erro: string): Boolean;
 var
     query : TFDQuery;
 begin
+
+    ServerModelConnection.FConn.StartTransaction;
     try
         query := TFDQuery.Create(nil);
         query.Connection := ServerModelConnection.FConn;
@@ -101,12 +107,14 @@ begin
             ExecSQL;
         end;
 
+        ServerModelConnection.FConn.Commit;
         query.Free;
         erro := '';
         result := true;
 
     except on ex:exception do
         begin
+            ServerModelConnection.FConn.Rollback;
             erro := 'Erro ao excluir cliente: ' + ex.Message;
             Result := false;
         end;
@@ -125,7 +133,7 @@ begin
       exit;
     end;
 
-
+    ServerModelConnection.FConn.StartTransaction;
     try
       query := TFDQuery.Create(nil);
       query.Connection := ServerModelConnection.FConn;
@@ -153,17 +161,21 @@ begin
         CLIENTE_ID := FieldByName('CLIENTE_ID').AsInteger;
       end;
 
+      ServerModelConnection.FConn.Commit;
+
       query.Free;
       erro := '';
       Result := True;
 
     except on ex:exception do
     begin
+      ServerModelConnection.FConn.Rollback;
       erro := 'Erro ao cadastrar cliente: ' + ex.Message;
       Result := False;
     end;
 
     end;
+
 
 end;
 
