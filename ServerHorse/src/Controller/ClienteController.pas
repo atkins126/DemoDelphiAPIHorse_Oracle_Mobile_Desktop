@@ -18,6 +18,10 @@ procedure deleteCliente(Req: THorseRequest; Res: THorseResponse; Next: TProc);
 procedure updateCliente(Req: THorseRequest; Res: THorseResponse; Next: TProc);
 
 procedure findClienteId(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+procedure findCliente(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+
+
+
 
 implementation
 
@@ -82,6 +86,34 @@ begin
   end;
 
 end;
+
+
+procedure findCliente(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+var
+  cli : TCliente;
+  query : TFDQuery;
+  erro : string;
+  arrayClientes : TJSONArray;
+begin
+
+  try
+     cli := TCliente.Create;
+  except
+     Res.Send('Erro ao conectar-se com o banco.').Status(500);
+     exit;
+  end;
+
+  try
+     query := cli.BuscarCliente(req.Query.Dictionary, erro);
+     arrayClientes := query.ToJSONArray();
+     Res.Send<TJSONArray>(arrayClientes);
+  finally
+     query.Free;
+     cli.Free;
+  end;
+
+end;
+
 
 procedure addCliente(Req: THorseRequest; Res: THorseResponse; Next: TProc);
 var
@@ -233,6 +265,7 @@ procedure Registry;
 begin
     THorse.Get('/cliente', listCliente);
     THorse.Get('/cliente/:id', findClienteId);
+    THorse.Get('/cliente/pesquisa', findCliente);
     THorse.Post('/cliente', addCliente);
     THorse.Put('/cliente', updateCliente);
     THorse.Delete('/cliente/:id', deleteCliente);

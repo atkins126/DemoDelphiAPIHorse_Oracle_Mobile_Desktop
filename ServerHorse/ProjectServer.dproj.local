@@ -27,4 +27,14 @@
 	<ActiveMobileDevice>
 		<NoProfile iOSSimulator="iPhone5"/>
 	</ActiveMobileDevice>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="src"/>
+    <File Path="src\Controller"/>
+    <File Path="src\Controller\ClienteController.pas"/>
+    <File Path="src\Controller\EnderecoController.pas"/>
+    <File Path="src\Model"/>
+    <File Path="src\Model\ClienteModel.pas"/>
+    <File Path="src\Model\EnderecoModel.pas"/>
+    <File Path="src\Model\ServerModelConnection.pas"/>
+  </ProjectSortOrder>
 </BorlandProject>

@@ -2,7 +2,7 @@ unit ClienteModel;
 
 interface
 
-uses FireDAC.Comp.Client, Data.DB, System.SysUtils, ServerModelConnection;
+uses FireDAC.Comp.Client, Data.DB, System.SysUtils, ServerModelConnection, System.Generics.Collections;
 
 type
 
@@ -22,6 +22,7 @@ type
       property EMAIL: String read FEMAIL write FEMAIL;
 
       function ListarCliente(order_by: string; out erro: string) : TFDQuery;
+      function BuscarCliente(const AQuery: TDictionary<string,string>; out erro: string) : TFDQuery;
       function Inserir(out erro: string) : Boolean;
       function Excluir(out erro: string) : Boolean;
       function Atualizar(out erro: string) : Boolean;
@@ -106,7 +107,6 @@ begin
             ParamByName('CLIENTE_ID').Value := CLIENTE_ID;
             ExecSQL;
         end;
-
 
         ServerModelConnection.FConn.Commit;
         query.Free;
@@ -210,6 +210,62 @@ begin
        begin
          SQL.Add('ORDER BY ' + order_by);
        end;
+
+       Active := True;
+
+     end;
+
+     erro := '';
+     Result := query;
+
+     except on ex:exception do
+     begin
+         erro := 'Erro ao consultar cliente: ' + ex.Message;
+         Result := nil;
+     end;
+
+   end;
+
+end;
+
+
+function TCliente.BuscarCliente(const AQuery: TDictionary<string,string>; out erro: string) : TFDQuery;
+var
+  query : TFDQuery;
+  pesquisa:string;
+  sqlC : string;
+begin
+   //
+
+   if AQuery.ContainsKey('pesquisa') then
+   begin
+
+      pesquisa := AQuery.Items['pesquisa'];
+
+   end
+   else
+   begin
+      pesquisa := '';
+   end;
+
+
+   try
+
+     query := TFDQuery.Create(Nil);
+     query.Connection := ServerModelConnection.FConn;
+
+     sqlC := 'SELECT * FROM CLIENTE WHERE RAZAO_SOCIAL LIKE ' + QuotedStr('%:RAZAO_SOCIAL%');
+     with query do
+     begin
+
+       Active := False;
+       SQL.Clear;
+
+
+       SQL.Add(sqlC);
+       ParamByName('RAZAO_SOCIAL').Value := pesquisa;
+
+
 
        Active := True;
 

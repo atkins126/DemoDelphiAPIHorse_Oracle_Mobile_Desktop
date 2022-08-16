@@ -2,7 +2,7 @@ unit ClienteModel;
 
 interface
 
-uses FireDAC.Comp.Client, Data.DB, System.SysUtils, ServerModelConnection;
+uses FireDAC.Comp.Client, Data.DB, System.SysUtils, ServerModelConnection, System.Generics.Collections;
 
 type
 
@@ -22,6 +22,7 @@ type
       property EMAIL: String read FEMAIL write FEMAIL;
 
       function ListarCliente(order_by: string; out erro: string) : TFDQuery;
+      function BuscarCliente(const AQuery: TDictionary<string,string>; out erro: string) : TFDQuery;
       function Inserir(out erro: string) : Boolean;
       function Excluir(out erro: string) : Boolean;
       function Atualizar(out erro: string) : Boolean;
@@ -45,6 +46,7 @@ begin
         exit;
     end;
 
+    ServerModelConnection.FConn.StartTransaction;
     try
         query := TFDQuery.Create(nil);
         query.Connection := ServerModelConnection.FConn;
@@ -62,12 +64,15 @@ begin
             ExecSQL;
         end;
 
+        ServerModelConnection.FConn.Commit;
+
         query.Free;
         erro := '';
         result := true;
 
     except on ex:exception do
         begin
+            ServerModelConnection.FConn.Rollback;
             erro := 'Erro ao alterar cliente: ' + ex.Message;
             Result := false;
         end;
@@ -88,6 +93,8 @@ function TCliente.Excluir(out erro: string): Boolean;
 var
     query : TFDQuery;
 begin
+
+    ServerModelConnection.FConn.StartTransaction;
     try
         query := TFDQuery.Create(nil);
         query.Connection := ServerModelConnection.FConn;
@@ -101,12 +108,14 @@ begin
             ExecSQL;
         end;
 
+        ServerModelConnection.FConn.Commit;
         query.Free;
         erro := '';
         result := true;
 
     except on ex:exception do
         begin
+            ServerModelConnection.FConn.Rollback;
             erro := 'Erro ao excluir cliente: ' + ex.Message;
             Result := false;
         end;
@@ -125,60 +134,50 @@ begin
       exit;
     end;
 
-
-
-
     ServerModelConnection.FConn.StartTransaction;
     try
+      query := TFDQuery.Create(nil);
+      query.Connection := ServerModelConnection.FConn;
 
-        try
-          query := TFDQuery.Create(nil);
-          query.Connection := ServerModelConnection.FConn;
+      with query do
+      begin
+        Active := False;
+        SQL.Clear;
+        SQL.Add('INSERT INTO CLIENTE (RAZAO_SOCIAL, EMAIL)');
+        SQL.Add('VALUES(:RAZAO_SOCIAL, :EMAIL)');
 
+        ParamByName('RAZAO_SOCIAL').Value := RAZAO_SOCIAL;
+        ParamByName('EMAIL').Value := EMAIL;
 
+        ExecSQL;
 
+        Params.Clear;
+        SQL.Clear;
+        SQL.Add('SELECT MAX(CLIENTE_ID) AS CLIENTE_ID FROM CLIENTE');
+        SQL.Add('WHERE EMAIL = :EMAIL');
+        ParamByName('EMAIL').Value := EMAIL;
 
-          with query do
-          begin
-            Active := False;
-            SQL.Clear;
-            SQL.Add('INSERT INTO CLIENTE (RAZAO_SOCIAL, EMAIL)');
-            SQL.Add('VALUES(:RAZAO_SOCIAL, :EMAIL)');
+        Active := True;
 
-            ParamByName('RAZAO_SOCIAL').Value := RAZAO_SOCIAL;
-            ParamByName('EMAIL').Value := EMAIL;
+        CLIENTE_ID := FieldByName('CLIENTE_ID').AsInteger;
+      end;
 
-            ExecSQL;
+      ServerModelConnection.FConn.Commit;
 
-            Params.Clear;
-            SQL.Clear;
-            SQL.Add('SELECT MAX(CLIENTE_ID) AS CLIENTE_ID FROM CLIENTE');
-            SQL.Add('WHERE EMAIL = :EMAIL');
-            ParamByName('EMAIL').Value := EMAIL;
+      query.Free;
+      erro := '';
+      Result := True;
 
-            Active := True;
-
-            CLIENTE_ID := FieldByName('CLIENTE_ID').AsInteger;
-          end;
-
-          ServerModelConnection.FConn.Rollback;
-
-          query.Free;
-          erro := '';
-          Result := True;
-
-        except on ex:exception do
-        begin
-          erro := 'Erro ao cadastrar cliente: ' + ex.Message;
-          Result := False;
-        end;
-
-        end;
-
-    except
+    except on ex:exception do
+    begin
       ServerModelConnection.FConn.Rollback;
-      raise;
+      erro := 'Erro ao cadastrar cliente: ' + ex.Message;
+      Result := False;
     end;
+
+    end;
+
+
 end;
 
 function TCliente.ListarCliente(order_by: string; out erro: string): TFDQuery;
@@ -211,6 +210,67 @@ begin
        begin
          SQL.Add('ORDER BY ' + order_by);
        end;
+
+       Active := True;
+
+     end;
+
+     erro := '';
+     Result := query;
+
+     except on ex:exception do
+     begin
+         erro := 'Erro ao consultar cliente: ' + ex.Message;
+         Result := nil;
+     end;
+
+   end;
+
+end;
+
+
+function TCliente.BuscarCliente(const AQuery: TDictionary<string,string>; out erro: string) : TFDQuery;
+var
+  query : TFDQuery;
+  pesquisa:string;
+  sqlC : string;
+begin
+   //
+
+   if AQuery.ContainsKey('pesquisa') then
+   begin
+
+      pesquisa := AQuery.Items['pesquisa'];
+
+   end
+   else
+   begin
+      pesquisa := '';
+   end;
+
+
+   try
+
+     query := TFDQuery.Create(Nil);
+     query.Connection := ServerModelConnection.FConn;
+
+     sqlC := 'SELECT * FROM CLIENTE WHERE RAZAO_SOCIAL LIKE ' + QuotedStr('%:RAZAO_SOCIAL%');
+
+      Writeln(sqlC);
+      Readln;
+
+
+     with query do
+     begin
+
+       Active := False;
+       SQL.Clear;
+
+
+       SQL.Add(sqlC);
+       ParamByName('RAZAO_SOCIAL').Value := pesquisa;
+
+
 
        Active := True;
 

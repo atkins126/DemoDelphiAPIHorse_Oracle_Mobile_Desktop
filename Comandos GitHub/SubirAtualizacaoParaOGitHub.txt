@@ -1,4 +1,4 @@
 git add .
-git commit -m "Ajustes no layout do cadastro de Enderecos e botoes"
+git commit -m "Ajustes Finais e Buscar implementado."
 git push -u origin main
 git status

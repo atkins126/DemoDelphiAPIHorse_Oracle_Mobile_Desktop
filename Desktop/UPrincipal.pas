@@ -37,9 +37,6 @@ type
     DBGrid1: TDBGrid;
     DataSource1: TDataSource;
     btnCancelar: TButton;
-    edtIDCliente: TDBEdit;
-    edtRazaoSocial: TDBEdit;
-    edtEmail: TDBEdit;
     FDMemTable1CLIENTE_ID: TIntegerField;
     FDMemTable1RAZAO_SOCIAL: TStringField;
     FDMemTable1EMAIL: TStringField;
@@ -65,13 +62,6 @@ type
     mtEnderecosUF: TStringField;
     mtEnderecosCEP: TStringField;
     mtEnderecosCLIENTE_ID: TIntegerField;
-    DBEdit1: TDBEdit;
-    edtRua: TDBEdit;
-    edtNumero: TDBEdit;
-    edtCidade: TDBEdit;
-    edtUF: TDBEdit;
-    edtCEP: TDBEdit;
-    edtBairro: TDBEdit;
     btnNovoEndereco: TButton;
     btnExcluirEndereco: TButton;
     btnCancelarEndereco: TButton;
@@ -88,6 +78,16 @@ type
     Button8: TButton;
     Panel3: TPanel;
     Panel4: TPanel;
+    edtIDCliente: TDBEdit;
+    edtRazaoSocial: TDBEdit;
+    edtEmail: TDBEdit;
+    DBEdit1: TDBEdit;
+    edtRua: TDBEdit;
+    edtNumero: TDBEdit;
+    edtBairro: TDBEdit;
+    edtCidade: TDBEdit;
+    edtUF: TDBEdit;
+    edtCEP: TDBEdit;
     procedure btnCancelarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
@@ -102,6 +102,7 @@ type
     procedure btnExcluirEnderecoClick(Sender: TObject);
     procedure dsEnderecosStateChange(Sender: TObject);
     procedure btnCancelarEnderecoClick(Sender: TObject);
+    procedure Button8Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -139,6 +140,16 @@ end;
 procedure TForm1.Button1Click(Sender: TObject);
 begin
     frmRelClientes.RLReport1.Preview();
+end;
+
+procedure TForm1.Button8Click(Sender: TObject);
+begin
+     TRequest.New.BaseURL(urlServidor + '/cliente/pesquisa?pesquisa=' + edtPesquisa.Text)
+    .Accept('application/json')
+    .DataSetAdapter(FDMemTable1)
+    .Get;
+
+    buscaEnderecos;
 end;
 
 procedure TForm1.btnNovoEnderecoClick(Sender: TObject);
@@ -259,10 +270,8 @@ begin
    TRequest.New.BaseURL(urlServidor + '/cliente/' + FDMemTable1CLIENTE_ID.AsInteger.ToString)
   .Delete;
 
-  TRequest.New.BaseURL(urlServidor + '/cliente')
-  .Accept('application/json')
-  .DataSetAdapter(FDMemTable1)
-  .Get;
+  buscaClientes;
+  buscaEnderecos;
 
 end;
 

@@ -37,9 +37,6 @@ type
     DBGrid1: TDBGrid;
     DataSource1: TDataSource;
     btnCancelar: TButton;
-    edtIDCliente: TDBEdit;
-    edtRazaoSocial: TDBEdit;
-    edtEmail: TDBEdit;
     FDMemTable1CLIENTE_ID: TIntegerField;
     FDMemTable1RAZAO_SOCIAL: TStringField;
     FDMemTable1EMAIL: TStringField;
@@ -47,7 +44,6 @@ type
     btnGravar: TButton;
     btnEcluir: TButton;
     Panel1: TPanel;
-    Button2: TButton;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -66,18 +62,10 @@ type
     mtEnderecosUF: TStringField;
     mtEnderecosCEP: TStringField;
     mtEnderecosCLIENTE_ID: TIntegerField;
-    DBEdit1: TDBEdit;
-    edtRua: TDBEdit;
-    edtNumero: TDBEdit;
-    edtCidade: TDBEdit;
-    edtUF: TDBEdit;
-    edtCEP: TDBEdit;
-    edtBairro: TDBEdit;
-    Button3: TButton;
-    Button4: TButton;
-    Button5: TButton;
-    Button6: TButton;
-    Button7: TButton;
+    btnNovoEndereco: TButton;
+    btnExcluirEndereco: TButton;
+    btnCancelarEndereco: TButton;
+    btnGravarEndereco: TButton;
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
@@ -89,7 +77,17 @@ type
     edtPesquisa: TEdit;
     Button8: TButton;
     Panel3: TPanel;
-    procedure Button2Click(Sender: TObject);
+    Panel4: TPanel;
+    edtIDCliente: TDBEdit;
+    edtRazaoSocial: TDBEdit;
+    edtEmail: TDBEdit;
+    DBEdit1: TDBEdit;
+    edtRua: TDBEdit;
+    edtNumero: TDBEdit;
+    edtBairro: TDBEdit;
+    edtCidade: TDBEdit;
+    edtUF: TDBEdit;
+    edtCEP: TDBEdit;
     procedure btnCancelarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
@@ -99,9 +97,11 @@ type
     procedure buscaEnderecos;
     procedure Button1Click(Sender: TObject);
     procedure DataSource1StateChange(Sender: TObject);
-    procedure Button3Click(Sender: TObject);
-    procedure Button7Click(Sender: TObject);
-    procedure Button5Click(Sender: TObject);
+    procedure btnNovoEnderecoClick(Sender: TObject);
+    procedure btnGravarEnderecoClick(Sender: TObject);
+    procedure btnExcluirEnderecoClick(Sender: TObject);
+    procedure dsEnderecosStateChange(Sender: TObject);
+    procedure btnCancelarEnderecoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -141,19 +141,13 @@ begin
     frmRelClientes.RLReport1.Preview();
 end;
 
-procedure TForm1.Button2Click(Sender: TObject);
-begin
-  buscaClientes;
-  buscaEnderecos;
-end;
-
-procedure TForm1.Button3Click(Sender: TObject);
+procedure TForm1.btnNovoEnderecoClick(Sender: TObject);
 begin
   mtEnderecos.Append;
   edtRua.SetFocus;
 end;
 
-procedure TForm1.Button5Click(Sender: TObject);
+procedure TForm1.btnExcluirEnderecoClick(Sender: TObject);
 var
 LJSONObject: TJSONObject;
 begin
@@ -162,17 +156,16 @@ begin
   .Delete;
 
   buscaEnderecos;
+
 end;
 
-procedure TForm1.Button7Click(Sender: TObject);
+procedure TForm1.btnGravarEnderecoClick(Sender: TObject);
 var
 LJSONObject: TJSONObject;
 begin
 
-
    mtEnderecos.Post;
    LJSONObject := mtEnderecos.ToJSONObject();
-
 
    if (mtEnderecosENDERECO_ID.AsInteger > 0) then
    begin
@@ -241,8 +234,21 @@ begin
   btnCancelar.Enabled :=     (FDMemTable1.State in [dsEdit, dsInsert]);
   btnGravar.Enabled   :=     (FDMemTable1.State in [dsEdit, dsInsert]);
 
+end;
 
+procedure TForm1.dsEnderecosStateChange(Sender: TObject);
+begin
 
+  btnNovoEndereco.Enabled     := not (mtEnderecos.State in [dsEdit, dsInsert]);
+  btnExcluirEndereco.Enabled  := not (mtEnderecos.State in [dsEdit, dsInsert]);
+  btnCancelarEndereco.Enabled :=     (mtEnderecos.State in [dsEdit, dsInsert]);
+  btnGravarEndereco.Enabled   :=     (mtEnderecos.State in [dsEdit, dsInsert]);
+
+end;
+
+procedure TForm1.btnCancelarEnderecoClick(Sender: TObject);
+begin
+  mtEnderecos.Cancel;
 end;
 
 procedure TForm1.btnEcluirClick(Sender: TObject);

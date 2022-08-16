@@ -20,7 +20,6 @@ object Form1: TForm1
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 0
-    ExplicitHeight = 434
     object TabSheet1: TTabSheet
       Caption = 'Clientes'
       object DBGrid1: TDBGrid
@@ -44,6 +43,7 @@ object Form1: TForm1
             Expanded = False
             FieldName = 'CLIENTE_ID'
             Title.Caption = 'ID'
+            Width = 40
             Visible = True
           end
           item
@@ -67,7 +67,6 @@ object Form1: TForm1
         Color = clCream
         ParentBackground = False
         TabOrder = 1
-        ExplicitHeight = 190
         object Label1: TLabel
           Left = 8
           Top = 11
@@ -89,15 +88,6 @@ object Form1: TForm1
           Height = 15
           Caption = 'Email.:'
         end
-        object edtEmail: TDBEdit
-          Left = 521
-          Top = 8
-          Width = 233
-          Height = 23
-          DataField = 'EMAIL'
-          DataSource = DataSource1
-          TabOrder = 0
-        end
         object edtIDCliente: TDBEdit
           Left = 31
           Top = 8
@@ -105,7 +95,7 @@ object Form1: TForm1
           Height = 23
           DataField = 'CLIENTE_ID'
           DataSource = DataSource1
-          TabOrder = 1
+          TabOrder = 0
         end
         object edtRazaoSocial: TDBEdit
           Left = 192
@@ -113,6 +103,15 @@ object Form1: TForm1
           Width = 273
           Height = 23
           DataField = 'RAZAO_SOCIAL'
+          DataSource = DataSource1
+          TabOrder = 1
+        end
+        object edtEmail: TDBEdit
+          Left = 521
+          Top = 8
+          Width = 233
+          Height = 23
+          DataField = 'EMAIL'
           DataSource = DataSource1
           TabOrder = 2
         end
@@ -140,7 +139,6 @@ object Form1: TForm1
           Caption = 'Cancelar'
           TabOrder = 0
           OnClick = btnCancelarClick
-          ExplicitHeight = 53
         end
         object btnNovo: TButton
           AlignWithMargins = True
@@ -156,7 +154,6 @@ object Form1: TForm1
           Caption = 'Novo'
           TabOrder = 1
           OnClick = btnNovoClick
-          ExplicitHeight = 53
         end
         object btnGravar: TButton
           AlignWithMargins = True
@@ -172,7 +169,6 @@ object Form1: TForm1
           Caption = 'Gravar'
           TabOrder = 2
           OnClick = btnGravarClick
-          ExplicitHeight = 53
         end
         object btnEcluir: TButton
           AlignWithMargins = True
@@ -188,7 +184,6 @@ object Form1: TForm1
           Caption = 'Excluir'
           TabOrder = 3
           OnClick = btnEcluirClick
-          ExplicitTop = 7
         end
         object Button1: TButton
           Left = 796
@@ -213,6 +208,7 @@ object Form1: TForm1
           Height = 25
           Caption = 'Pesquisar'
           TabOrder = 6
+          OnClick = Button8Click
         end
       end
     end
@@ -240,7 +236,6 @@ object Form1: TForm1
             Expanded = False
             FieldName = 'ENDERECO_ID'
             Title.Caption = 'ID'
-            Width = 51
             Visible = True
           end
           item
@@ -291,7 +286,6 @@ object Form1: TForm1
         Color = clCream
         ParentBackground = False
         TabOrder = 1
-        ExplicitHeight = 190
         object Label7: TLabel
           Left = 346
           Top = 9
@@ -341,23 +335,14 @@ object Form1: TForm1
           Height = 15
           Caption = 'Cidade.:'
         end
-        object edtCidade: TDBEdit
-          Left = 513
+        object DBEdit1: TDBEdit
+          Left = 3
           Top = 30
-          Width = 194
+          Width = 53
           Height = 23
-          DataField = 'CIDADE'
+          DataField = 'ENDERECO_ID'
           DataSource = dsEnderecos
           TabOrder = 0
-        end
-        object edtNumero: TDBEdit
-          Left = 274
-          Top = 30
-          Width = 55
-          Height = 23
-          DataField = 'NUMERO'
-          DataSource = dsEnderecos
-          TabOrder = 1
         end
         object edtRua: TDBEdit
           Left = 72
@@ -366,16 +351,16 @@ object Form1: TForm1
           Height = 23
           DataField = 'RUA'
           DataSource = dsEnderecos
-          TabOrder = 2
+          TabOrder = 1
         end
-        object DBEdit1: TDBEdit
-          Left = 3
+        object edtNumero: TDBEdit
+          Left = 274
           Top = 30
-          Width = 53
+          Width = 55
           Height = 23
-          DataField = 'ENDERECO_ID'
+          DataField = 'NUMERO'
           DataSource = dsEnderecos
-          TabOrder = 3
+          TabOrder = 2
         end
         object edtBairro: TDBEdit
           Left = 346
@@ -384,16 +369,16 @@ object Form1: TForm1
           Height = 23
           DataField = 'BAIRRO'
           DataSource = dsEnderecos
-          TabOrder = 4
+          TabOrder = 3
         end
-        object edtCEP: TDBEdit
-          Left = 788
+        object edtCidade: TDBEdit
+          Left = 513
           Top = 30
-          Width = 74
+          Width = 194
           Height = 23
-          DataField = 'CEP'
+          DataField = 'CIDADE'
           DataSource = dsEnderecos
-          TabOrder = 5
+          TabOrder = 4
         end
         object edtUF: TDBEdit
           Left = 721
@@ -401,6 +386,15 @@ object Form1: TForm1
           Width = 40
           Height = 23
           DataField = 'UF'
+          DataSource = dsEnderecos
+          TabOrder = 5
+        end
+        object edtCEP: TDBEdit
+          Left = 788
+          Top = 30
+          Width = 74
+          Height = 23
+          DataField = 'CEP'
           DataSource = dsEnderecos
           TabOrder = 6
         end
@@ -426,7 +420,6 @@ object Form1: TForm1
           Caption = 'Novo'
           TabOrder = 0
           OnClick = btnNovoEnderecoClick
-          ExplicitLeft = 14
         end
         object btnExcluirEndereco: TButton
           AlignWithMargins = True
@@ -440,7 +433,6 @@ object Form1: TForm1
           Caption = 'Excluir'
           TabOrder = 1
           OnClick = btnExcluirEnderecoClick
-          ExplicitLeft = 257
         end
         object btnCancelarEndereco: TButton
           AlignWithMargins = True
@@ -454,7 +446,6 @@ object Form1: TForm1
           Caption = 'Cancelar'
           TabOrder = 2
           OnClick = btnCancelarEnderecoClick
-          ExplicitLeft = 338
         end
         object btnGravarEndereco: TButton
           AlignWithMargins = True
@@ -468,7 +459,6 @@ object Form1: TForm1
           Caption = 'Gravar'
           TabOrder = 3
           OnClick = btnGravarEnderecoClick
-          ExplicitLeft = 95
         end
       end
     end
