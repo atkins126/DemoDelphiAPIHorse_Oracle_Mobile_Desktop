@@ -25,12 +25,10 @@ object Form1: TForm1
       Caption = 'Clientes'
       object DBGrid1: TDBGrid
         AlignWithMargins = True
-        Left = 0
+        Left = 3
         Top = 248
-        Width = 881
+        Width = 875
         Height = 180
-        Margins.Left = 0
-        Margins.Right = 0
         Align = alBottom
         DataSource = DataSource1
         TabOrder = 0
@@ -62,12 +60,11 @@ object Form1: TForm1
         Left = 0
         Top = 0
         Width = 881
-        Height = 245
-        Align = alClient
+        Height = 190
+        Align = alTop
         Color = clCream
         ParentBackground = False
         TabOrder = 1
-        ExplicitHeight = 190
         object Label1: TLabel
           Left = 8
           Top = 11
@@ -117,6 +114,15 @@ object Form1: TForm1
           TabOrder = 2
         end
       end
+      object Button2: TButton
+        Left = 796
+        Top = 193
+        Width = 75
+        Height = 25
+        Caption = 'Refresh'
+        TabOrder = 2
+        OnClick = Button2Click
+      end
       object Panel1: TPanel
         Left = 0
         Top = 431
@@ -125,7 +131,7 @@ object Form1: TForm1
         Align = alBottom
         Color = clHighlight
         ParentBackground = False
-        TabOrder = 2
+        TabOrder = 3
         object btnCancelar: TButton
           AlignWithMargins = True
           Left = 246
@@ -220,14 +226,10 @@ object Form1: TForm1
       Caption = 'Endere'#231'os'
       ImageIndex = 1
       object DBGrid2: TDBGrid
-        AlignWithMargins = True
         Left = 0
-        Top = 248
+        Top = 208
         Width = 881
         Height = 180
-        Margins.Left = 0
-        Margins.Right = 0
-        Align = alBottom
         DataSource = dsEnderecos
         TabOrder = 0
         TitleFont.Charset = DEFAULT_CHARSET
@@ -286,12 +288,11 @@ object Form1: TForm1
         Left = 0
         Top = 0
         Width = 881
-        Height = 245
-        Align = alClient
+        Height = 190
+        Align = alTop
         Color = clCream
         ParentBackground = False
         TabOrder = 1
-        ExplicitHeight = 190
         object Label7: TLabel
           Left = 346
           Top = 9
@@ -428,7 +429,7 @@ object Form1: TForm1
           OnClick = btnNovoEnderecoClick
           ExplicitLeft = 14
         end
-        object btnExcluirEndereco: TButton
+        object btnAlterarEndereco: TButton
           AlignWithMargins = True
           Left = 166
           Top = 6
@@ -437,12 +438,11 @@ object Form1: TForm1
           Margins.Top = 5
           Margins.Bottom = 5
           Align = alLeft
-          Caption = 'Excluir'
+          Caption = 'Alterar'
           TabOrder = 1
-          OnClick = btnExcluirEnderecoClick
-          ExplicitLeft = 257
+          ExplicitLeft = 176
         end
-        object btnCancelarEndereco: TButton
+        object btnExcluirEndereco: TButton
           AlignWithMargins = True
           Left = 247
           Top = 6
@@ -451,9 +451,22 @@ object Form1: TForm1
           Margins.Top = 5
           Margins.Bottom = 5
           Align = alLeft
-          Caption = 'Cancelar'
+          Caption = 'Excluir'
           TabOrder = 2
-          OnClick = btnCancelarEnderecoClick
+          OnClick = btnExcluirEnderecoClick
+          ExplicitLeft = 257
+        end
+        object btnCancelarEndereco: TButton
+          AlignWithMargins = True
+          Left = 328
+          Top = 6
+          Width = 75
+          Height = 28
+          Margins.Top = 5
+          Margins.Bottom = 5
+          Align = alLeft
+          Caption = 'Cancelar'
+          TabOrder = 3
           ExplicitLeft = 338
         end
         object btnGravarEndereco: TButton
@@ -466,7 +479,7 @@ object Form1: TForm1
           Margins.Bottom = 5
           Align = alLeft
           Caption = 'Gravar'
-          TabOrder = 3
+          TabOrder = 4
           OnClick = btnGravarEnderecoClick
           ExplicitLeft = 95
         end

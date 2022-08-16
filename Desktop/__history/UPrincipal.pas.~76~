@@ -73,11 +73,11 @@ type
     edtUF: TDBEdit;
     edtCEP: TDBEdit;
     edtBairro: TDBEdit;
-    Button3: TButton;
-    Button4: TButton;
-    Button5: TButton;
-    Button6: TButton;
-    Button7: TButton;
+    btnNovoEndereco: TButton;
+    btnAlterarEndereco: TButton;
+    btnExcluirEndereco: TButton;
+    btnCancelarEndereco: TButton;
+    btnGravarEndereco: TButton;
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
@@ -89,6 +89,7 @@ type
     edtPesquisa: TEdit;
     Button8: TButton;
     Panel3: TPanel;
+    Panel4: TPanel;
     procedure Button2Click(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -99,7 +100,9 @@ type
     procedure buscaEnderecos;
     procedure Button1Click(Sender: TObject);
     procedure DataSource1StateChange(Sender: TObject);
-    procedure Button3Click(Sender: TObject);
+    procedure btnNovoEnderecoClick(Sender: TObject);
+    procedure btnGravarEnderecoClick(Sender: TObject);
+    procedure btnExcluirEnderecoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -145,9 +148,50 @@ begin
   buscaEnderecos;
 end;
 
-procedure TForm1.Button3Click(Sender: TObject);
+procedure TForm1.btnNovoEnderecoClick(Sender: TObject);
 begin
   mtEnderecos.Append;
+  edtRua.SetFocus;
+end;
+
+procedure TForm1.btnExcluirEnderecoClick(Sender: TObject);
+var
+LJSONObject: TJSONObject;
+begin
+
+   TRequest.New.BaseURL(urlServidor + '/endereco/' + mtEnderecosENDERECO_ID.AsInteger.ToString)
+  .Delete;
+
+  buscaEnderecos;
+end;
+
+procedure TForm1.btnGravarEnderecoClick(Sender: TObject);
+var
+LJSONObject: TJSONObject;
+begin
+
+
+   mtEnderecos.Post;
+   LJSONObject := mtEnderecos.ToJSONObject();
+
+
+   if (mtEnderecosENDERECO_ID.AsInteger > 0) then
+   begin
+       TRequest.New.BaseURL(urlServidor + '/endereco')
+      .ContentType('application/json')
+      .AddBody(LJSONObject.ToString)
+      .Put;
+   end
+   else
+   begin
+       TRequest.New.BaseURL(urlServidor + '/endereco')
+       .ContentType('application/json')
+       .AddBody(LJSONObject.ToString)
+       .Post;
+   end;
+
+   buscaEnderecos;
+
 end;
 
 procedure TForm1.btnCancelarClick(Sender: TObject);
@@ -158,6 +202,7 @@ end;
 procedure TForm1.btnNovoClick(Sender: TObject);
 begin
   FDMemTable1.Append;
+  PageControl1.TabIndex := 0;
   edtRazaoSocial.SetFocus;
 end;
 
@@ -218,6 +263,7 @@ end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
+  PageControl1.TabIndex := 0;
   TDataSetSerializeConfig.GetInstance.CaseNameDefinition := TCaseNameDefinition.cndNone;
   urlServidor :=  'http://localhost:9000';
   buscaClientes;

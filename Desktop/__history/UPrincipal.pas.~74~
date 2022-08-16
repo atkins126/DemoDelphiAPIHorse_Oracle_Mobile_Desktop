@@ -67,12 +67,12 @@ type
     mtEnderecosCEP: TStringField;
     mtEnderecosCLIENTE_ID: TIntegerField;
     DBEdit1: TDBEdit;
-    DBEdit2: TDBEdit;
-    DBEdit3: TDBEdit;
-    DBEdit4: TDBEdit;
-    DBEdit5: TDBEdit;
-    DBEdit6: TDBEdit;
-    DBEdit7: TDBEdit;
+    edtRua: TDBEdit;
+    edtNumero: TDBEdit;
+    edtCidade: TDBEdit;
+    edtUF: TDBEdit;
+    edtCEP: TDBEdit;
+    edtBairro: TDBEdit;
     Button3: TButton;
     Button4: TButton;
     Button5: TButton;
@@ -100,6 +100,8 @@ type
     procedure Button1Click(Sender: TObject);
     procedure DataSource1StateChange(Sender: TObject);
     procedure Button3Click(Sender: TObject);
+    procedure Button7Click(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -148,6 +150,47 @@ end;
 procedure TForm1.Button3Click(Sender: TObject);
 begin
   mtEnderecos.Append;
+  edtRua.SetFocus;
+end;
+
+procedure TForm1.Button5Click(Sender: TObject);
+var
+LJSONObject: TJSONObject;
+begin
+
+   TRequest.New.BaseURL(urlServidor + '/endereco/' + mtEnderecosENDERECO_ID.AsInteger.ToString)
+  .Delete;
+
+  buscaEnderecos;
+end;
+
+procedure TForm1.Button7Click(Sender: TObject);
+var
+LJSONObject: TJSONObject;
+begin
+
+
+   mtEnderecos.Post;
+   LJSONObject := mtEnderecos.ToJSONObject();
+
+
+   if (mtEnderecosENDERECO_ID.AsInteger > 0) then
+   begin
+       TRequest.New.BaseURL(urlServidor + '/endereco')
+      .ContentType('application/json')
+      .AddBody(LJSONObject.ToString)
+      .Put;
+   end
+   else
+   begin
+       TRequest.New.BaseURL(urlServidor + '/endereco')
+       .ContentType('application/json')
+       .AddBody(LJSONObject.ToString)
+       .Post;
+   end;
+
+   buscaEnderecos;
+
 end;
 
 procedure TForm1.btnCancelarClick(Sender: TObject);
@@ -158,6 +201,7 @@ end;
 procedure TForm1.btnNovoClick(Sender: TObject);
 begin
   FDMemTable1.Append;
+  PageControl1.TabIndex := 0;
   edtRazaoSocial.SetFocus;
 end;
 
@@ -218,6 +262,7 @@ end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
+  PageControl1.TabIndex := 0;
   TDataSetSerializeConfig.GetInstance.CaseNameDefinition := TCaseNameDefinition.cndNone;
   urlServidor :=  'http://localhost:9000';
   buscaClientes;

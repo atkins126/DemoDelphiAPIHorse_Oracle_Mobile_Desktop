@@ -73,11 +73,11 @@ type
     edtUF: TDBEdit;
     edtCEP: TDBEdit;
     edtBairro: TDBEdit;
-    Button3: TButton;
-    Button4: TButton;
-    Button5: TButton;
-    Button6: TButton;
-    Button7: TButton;
+    btnNovoEndereco: TButton;
+    btnAlterarEndereco: TButton;
+    btnExcluirEndereco: TButton;
+    btnCancelarEndereco: TButton;
+    btnGravarEndereco: TButton;
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
@@ -99,8 +99,9 @@ type
     procedure buscaEnderecos;
     procedure Button1Click(Sender: TObject);
     procedure DataSource1StateChange(Sender: TObject);
-    procedure Button3Click(Sender: TObject);
-    procedure Button7Click(Sender: TObject);
+    procedure btnNovoEnderecoClick(Sender: TObject);
+    procedure btnGravarEnderecoClick(Sender: TObject);
+    procedure btnExcluirEnderecoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -146,18 +147,29 @@ begin
   buscaEnderecos;
 end;
 
-procedure TForm1.Button3Click(Sender: TObject);
+procedure TForm1.btnNovoEnderecoClick(Sender: TObject);
 begin
   mtEnderecos.Append;
   edtRua.SetFocus;
 end;
 
-procedure TForm1.Button7Click(Sender: TObject);
+procedure TForm1.btnExcluirEnderecoClick(Sender: TObject);
 var
 LJSONObject: TJSONObject;
 begin
 
-   FDMemTable1CLIENTE_ID.AsInteger := FDMemTable1CLIENTE_ID.AsInteger;
+   TRequest.New.BaseURL(urlServidor + '/endereco/' + mtEnderecosENDERECO_ID.AsInteger.ToString)
+  .Delete;
+
+  buscaEnderecos;
+end;
+
+procedure TForm1.btnGravarEnderecoClick(Sender: TObject);
+var
+LJSONObject: TJSONObject;
+begin
+
+
    mtEnderecos.Post;
    LJSONObject := mtEnderecos.ToJSONObject();
 
