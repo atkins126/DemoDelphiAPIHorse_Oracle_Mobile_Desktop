@@ -144,12 +144,10 @@ end;
 
 procedure TForm1.Button8Click(Sender: TObject);
 begin
-     TRequest.New.BaseURL(urlServidor + '/cliente/pesquisa?pesquisa=' + edtPesquisa.Text)
+     TRequest.New.BaseURL(urlServidor + '/cliente')
     .Accept('application/json')
     .DataSetAdapter(FDMemTable1)
     .Get;
-
-    buscaEnderecos;
 end;
 
 procedure TForm1.btnNovoEnderecoClick(Sender: TObject);

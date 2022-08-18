@@ -102,7 +102,6 @@ type
     procedure btnExcluirEnderecoClick(Sender: TObject);
     procedure dsEnderecosStateChange(Sender: TObject);
     procedure btnCancelarEnderecoClick(Sender: TObject);
-    procedure Button8Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -140,16 +139,6 @@ end;
 procedure TForm1.Button1Click(Sender: TObject);
 begin
     frmRelClientes.RLReport1.Preview();
-end;
-
-procedure TForm1.Button8Click(Sender: TObject);
-begin
-     TRequest.New.BaseURL(urlServidor + '/cliente/pesquisa?pesquisa=' + edtPesquisa.Text)
-    .Accept('application/json')
-    .DataSetAdapter(FDMemTable1)
-    .Get;
-
-    buscaEnderecos;
 end;
 
 procedure TForm1.btnNovoEnderecoClick(Sender: TObject);
@@ -270,8 +259,10 @@ begin
    TRequest.New.BaseURL(urlServidor + '/cliente/' + FDMemTable1CLIENTE_ID.AsInteger.ToString)
   .Delete;
 
-  buscaClientes;
-  buscaEnderecos;
+  TRequest.New.BaseURL(urlServidor + '/cliente')
+  .Accept('application/json')
+  .DataSetAdapter(FDMemTable1)
+  .Get;
 
 end;
 

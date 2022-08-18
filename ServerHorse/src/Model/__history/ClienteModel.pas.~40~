@@ -233,7 +233,9 @@ function TCliente.BuscarCliente(const AQuery: TDictionary<string,string>; out er
 var
   query : TFDQuery;
   pesquisa:string;
+  sqlC : string;
 begin
+   //
 
    if AQuery.ContainsKey('pesquisa') then
    begin
@@ -252,13 +254,25 @@ begin
      query := TFDQuery.Create(Nil);
      query.Connection := ServerModelConnection.FConn;
 
+     sqlC := 'SELECT * FROM CLIENTE WHERE RAZAO_SOCIAL LIKE ''%:RAZAO_SOCIAL%'' ';
+
+      Writeln(sqlC);
+      //Readln;
+
+
      with query do
      begin
 
        Active := False;
        SQL.Clear;
 
-       SQL.Add('SELECT * FROM CLIENTE WHERE RAZAO_SOCIAL LIKE ''%' + pesquisa.Trim + '%'' ');
+
+       SQL.Add(sqlC);
+       ParamByName('RAZAO_SOCIAL').Value := pesquisa;
+
+
+
+
 
        Active := True;
 

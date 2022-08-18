@@ -22,7 +22,7 @@ type
       property EMAIL: String read FEMAIL write FEMAIL;
 
       function ListarCliente(order_by: string; out erro: string) : TFDQuery;
-      function BuscarCliente(const AQuery: TDictionary<string,string>; out erro: string) : TFDQuery;
+      function BuscarCliente(const AQuery: TDictionary<string,string>) : TFDQuery;
       function Inserir(out erro: string) : Boolean;
       function Excluir(out erro: string) : Boolean;
       function Atualizar(out erro: string) : Boolean;
@@ -229,21 +229,17 @@ begin
 end;
 
 
-function TCliente.BuscarCliente(const AQuery: TDictionary<string,string>; out erro: string) : TFDQuery;
+function TCliente.BuscarCliente(const AQuery: TDictionary<string,string>) : TFDQuery;
 var
   query : TFDQuery;
-  pesquisa:string;
 begin
+   //
 
    if AQuery.ContainsKey('pesquisa') then
    begin
 
-      pesquisa := AQuery.Items['pesquisa'];
+      AQuery.Items['pesquisa'];
 
-   end
-   else
-   begin
-      pesquisa := '';
    end;
 
 
@@ -257,8 +253,9 @@ begin
 
        Active := False;
        SQL.Clear;
+       SQL.Add('SELECT * FROM CLIENTE WHERE RAZAO_SOCIAL LIKE ' + QuotedStr('%:RAZAO_SOCIAL%'));
+       ParamByName('RAZAO_SOCIAL').Value := RAZAO_SOCIAL;
 
-       SQL.Add('SELECT * FROM CLIENTE WHERE RAZAO_SOCIAL LIKE ''%' + pesquisa.Trim + '%'' ');
 
        Active := True;
 

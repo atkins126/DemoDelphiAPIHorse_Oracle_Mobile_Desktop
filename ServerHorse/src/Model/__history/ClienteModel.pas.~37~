@@ -234,6 +234,7 @@ var
   query : TFDQuery;
   pesquisa:string;
 begin
+   //
 
    if AQuery.ContainsKey('pesquisa') then
    begin
@@ -257,8 +258,9 @@ begin
 
        Active := False;
        SQL.Clear;
+       SQL.Add('SELECT * FROM CLIENTE WHERE RAZAO_SOCIAL LIKE ' + QuotedStr('%:RAZAO_SOCIAL%'));
+       ParamByName('RAZAO_SOCIAL').Value := pesquisa;
 
-       SQL.Add('SELECT * FROM CLIENTE WHERE RAZAO_SOCIAL LIKE ''%' + pesquisa.Trim + '%'' ');
 
        Active := True;
 

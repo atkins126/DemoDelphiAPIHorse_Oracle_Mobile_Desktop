@@ -88,6 +88,15 @@ object Form1: TForm1
           Height = 15
           Caption = 'Email.:'
         end
+        object edtEmail: TDBEdit
+          Left = 521
+          Top = 8
+          Width = 233
+          Height = 23
+          DataField = 'EMAIL'
+          DataSource = DataSource1
+          TabOrder = 2
+        end
         object edtIDCliente: TDBEdit
           Left = 31
           Top = 8
@@ -105,15 +114,6 @@ object Form1: TForm1
           DataField = 'RAZAO_SOCIAL'
           DataSource = DataSource1
           TabOrder = 1
-        end
-        object edtEmail: TDBEdit
-          Left = 521
-          Top = 8
-          Width = 233
-          Height = 23
-          DataField = 'EMAIL'
-          DataSource = DataSource1
-          TabOrder = 2
         end
       end
       object Panel1: TPanel
@@ -208,7 +208,6 @@ object Form1: TForm1
           Height = 25
           Caption = 'Pesquisar'
           TabOrder = 6
-          OnClick = Button8Click
         end
       end
     end
@@ -335,23 +334,14 @@ object Form1: TForm1
           Height = 15
           Caption = 'Cidade.:'
         end
-        object DBEdit1: TDBEdit
-          Left = 3
+        object edtCidade: TDBEdit
+          Left = 513
           Top = 30
-          Width = 53
+          Width = 194
           Height = 23
-          DataField = 'ENDERECO_ID'
+          DataField = 'CIDADE'
           DataSource = dsEnderecos
           TabOrder = 0
-        end
-        object edtRua: TDBEdit
-          Left = 72
-          Top = 30
-          Width = 187
-          Height = 23
-          DataField = 'RUA'
-          DataSource = dsEnderecos
-          TabOrder = 1
         end
         object edtNumero: TDBEdit
           Left = 274
@@ -360,7 +350,25 @@ object Form1: TForm1
           Height = 23
           DataField = 'NUMERO'
           DataSource = dsEnderecos
+          TabOrder = 1
+        end
+        object edtRua: TDBEdit
+          Left = 72
+          Top = 30
+          Width = 187
+          Height = 23
+          DataField = 'RUA'
+          DataSource = dsEnderecos
           TabOrder = 2
+        end
+        object DBEdit1: TDBEdit
+          Left = 3
+          Top = 30
+          Width = 53
+          Height = 23
+          DataField = 'ENDERECO_ID'
+          DataSource = dsEnderecos
+          TabOrder = 6
         end
         object edtBairro: TDBEdit
           Left = 346
@@ -371,12 +379,12 @@ object Form1: TForm1
           DataSource = dsEnderecos
           TabOrder = 3
         end
-        object edtCidade: TDBEdit
-          Left = 513
+        object edtCEP: TDBEdit
+          Left = 788
           Top = 30
-          Width = 194
+          Width = 74
           Height = 23
-          DataField = 'CIDADE'
+          DataField = 'CEP'
           DataSource = dsEnderecos
           TabOrder = 4
         end
@@ -388,15 +396,6 @@ object Form1: TForm1
           DataField = 'UF'
           DataSource = dsEnderecos
           TabOrder = 5
-        end
-        object edtCEP: TDBEdit
-          Left = 788
-          Top = 30
-          Width = 74
-          Height = 23
-          DataField = 'CEP'
-          DataSource = dsEnderecos
-          TabOrder = 6
         end
       end
       object Panel2: TPanel
